@@ -43,7 +43,7 @@ namespace Entsoe
             return request;
         }
 
-        private AreaInfoAttribute GetAreaInfo(Area area)
+        private static AreaInfoAttribute GetAreaInfo(Area area)
         {
             var obj = area.GetType()
                     .GetMember(area.ToString())
