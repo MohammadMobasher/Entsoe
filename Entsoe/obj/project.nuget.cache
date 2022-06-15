@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "grypqUBpMmdfX7EennrHkeeZFFE9TMvLP8eDHlXrDWIcXmkv0P7Xo8047sKVRgig2T0kLLc+ZPOVt5qEIZZ7uw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\mohammad\\Documents\\Core\\Entsoe\\Entsoe\\Entsoe.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\mohammad\\.nuget\\packages\\restsharp\\108.0.1\\restsharp.108.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
