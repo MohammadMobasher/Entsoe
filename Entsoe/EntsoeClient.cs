@@ -32,7 +32,7 @@ namespace Entsoe
             _client = new RestClient(options);
         }
 
-        private RestRequest getBasicRequest(DateTime start, DateTime end)
+        private RestRequest GetBasicRequest(DateTime start, DateTime end)
         {
             var request = new RestRequest();
 
@@ -72,7 +72,7 @@ namespace Entsoe
         )
         {
             var areaInfo = GetAreaInfo(area);
-            var request = getBasicRequest(start, end);
+            var request = GetBasicRequest(start, end);
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A44));
             request.AddParameter("in_Domain", areaInfo.Domain);
             request.AddParameter("out_Domain", areaInfo.Domain);
