@@ -1,8 +1,8 @@
-﻿using RestSharp;
-using System.Xml;
-using Entsoe.Models;
+﻿using Entsoe.Models;
 using Newtonsoft.Json;
+using RestSharp;
 using System.Reflection;
+using System.Xml;
 
 namespace Entsoe
 {
@@ -25,8 +25,8 @@ namespace Entsoe
         public EntsoeClient(string apiKey)
         {
             _apiKey = apiKey;
-            var options = new RestClientOptions(_entsoeUrl) 
-            { 
+            var options = new RestClientOptions(_entsoeUrl)
+            {
                 Timeout = 30000
             };
             _client = new RestClient(options);
@@ -37,6 +37,8 @@ namespace Entsoe
             var request = new RestRequest();
 
             request.AddParameter("securityToken", _apiKey);
+            request.AddParameter("periodStart", start);
+            request.AddParameter("periodEnd", end);
 
             return request;
         }
@@ -47,14 +49,14 @@ namespace Entsoe
                     .GetMember(area.ToString())
                     .First()
                     .GetCustomAttribute<AreaInfoAttribute>();
-            if(obj == null)
+            if (obj == null)
             {
                 throw new Exception("");
             }
 
             return obj;
 
-            
+
         }
 
         /// <summary>
@@ -77,7 +79,7 @@ namespace Entsoe
 
             var response = await _client.ExecuteGetAsync(request);
 
-            if(response != null && response.IsSuccessful)
+            if (response != null && response.IsSuccessful)
             {
                 XmlDocument doc = new();
                 doc.LoadXml(response.Content!);
