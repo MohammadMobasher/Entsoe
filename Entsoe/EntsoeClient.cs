@@ -1,4 +1,8 @@
 ﻿using RestSharp;
+using System.Xml;
+using Entsoe.Models;
+using Newtonsoft.Json;
+using System.Reflection;
 
 namespace Entsoe
 {
@@ -28,7 +32,66 @@ namespace Entsoe
             _client = new RestClient(options);
         }
 
+        private RestRequest getBasicRequest(DateTime start, DateTime end)
+        {
+            var request = new RestRequest();
 
+            request.AddParameter("securityToken", _apiKey);
+
+            return request;
+        }
+
+        AreaInfoAttribute getAreaInfo(Area area)
+        {
+            var obj = area.GetType()
+                    .GetMember(area.ToString())
+                    .First()
+                    .GetCustomAttribute<AreaInfoAttribute>();
+            if(obj == null)
+            {
+                throw new Exception("");
+            }
+
+            return obj;
+
+            
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="area"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        public async Task<BalancingMarketDocument> QueryDayAheadPrices(
+            Area area,
+            DateTime start,
+            DateTime end
+        )
+        {
+            var areaInfo = getAreaInfo(area);
+            var request = getBasicRequest(start, end);
+            request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A44));
+            request.AddParameter("in_Domain", areaInfo.Domain);
+            request.AddParameter("out_Domain", areaInfo.Domain);
+
+            var response = await _client.ExecuteGetAsync(request);
+
+            if(response != null && response.IsSuccessful)
+            {
+                XmlDocument doc = new();
+                doc.LoadXml(response.Content!);
+
+                string json = JsonConvert.SerializeXmlNode(doc);
+                return JsonConvert.DeserializeObject<BalancingMarketDocument>(json)!;
+            }
+            else
+            {
+                throw new Exception("");
+            }
+
+
+        }
 
     }
 }
