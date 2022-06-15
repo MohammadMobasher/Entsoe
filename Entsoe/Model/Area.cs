@@ -3,6 +3,9 @@ namespace Entsoe.Model
 {
     public static class Area
     {
+        /// <summary>
+        /// List taken directly from the API Docs
+        /// </summary>
         private static readonly List<AreaItem> AreaItems = new()
         {
             new AreaItem
@@ -682,15 +685,35 @@ namespace Entsoe.Model
 
     }
 
-
+    /// <summary>
+    /// each area info
+    /// </summary>
     public class AreaItem
     {
 
-        public string CountryCode { get; set; }
-        public string Domain { get; set; }
-        public string CountryName { get; set; }
+        /// <summary>
+        /// CountryCode
+        /// </summary>
+        public string CountryCode { get; set; } = String.Empty;
 
-        public string TimeZoneName { get; set; }
+        /// <summary>
+        /// Domain
+        /// </summary>
+        public string Domain { get; set; } = String.Empty;
+
+        /// <summary>
+        /// CountryName
+        /// </summary>
+        public string CountryName { get; set; } = String.Empty;
+
+        /// <summary>
+        /// TimeZoneName
+        /// </summary>
+        public string TimeZoneName { get; set; } = String.Empty;
+
+        /// <summary>
+        /// TimeZoneInfo
+        /// </summary>
         public TimeZoneInfo TimeZoneInfo
         {
             get
