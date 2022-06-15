@@ -41,7 +41,7 @@ namespace Entsoe
             return request;
         }
 
-        AreaInfoAttribute getAreaInfo(Area area)
+        private AreaInfoAttribute GetAreaInfo(Area area)
         {
             var obj = area.GetType()
                     .GetMember(area.ToString())
@@ -69,7 +69,7 @@ namespace Entsoe
             DateTime end
         )
         {
-            var areaInfo = getAreaInfo(area);
+            var areaInfo = GetAreaInfo(area);
             var request = getBasicRequest(start, end);
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A44));
             request.AddParameter("in_Domain", areaInfo.Domain);
