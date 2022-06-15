@@ -1,5 +1,5 @@
 ﻿
-namespace Entsoe.Model
+namespace Entsoe.Models
 {
     public static class Area
     {
