@@ -59,6 +59,37 @@ namespace Entsoe
 
         }
 
+
+        public async Task<string> QueryNetPosition(
+            Area area,
+            DateTime start,
+            DateTime end,
+            bool dayAhead = true
+        )
+        {
+            var areaInfo = GetAreaInfo(area);
+
+            var request = GetBasicRequest(start, end);
+            request.AddParameter("in_Domain", areaInfo.Domain);
+            request.AddParameter("out_Domain", areaInfo.Domain);
+            request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A25));
+            request.AddParameter("businessType", Enum.GetName(typeof(BusinessType), BusinessType.B09));
+            if (dayAhead)
+                request.AddParameter("Contract_MarketAgreement.Type", Enum.GetName(typeof(MarketAgreementType), MarketAgreementType.A01));
+            else
+                request.AddParameter("Contract_MarketAgreement.Type", Enum.GetName(typeof(MarketAgreementType), MarketAgreementType.A07));
+
+            
+
+            var response = await _client.ExecuteGetAsync(request);
+
+            if(response != null && response.IsSuccessful)
+            {
+                return response.Content!;
+            }
+            throw new Exception("");
+        }
+
         /// <summary>
         /// 
         /// </summary>
