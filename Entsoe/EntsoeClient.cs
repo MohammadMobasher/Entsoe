@@ -59,6 +59,14 @@ namespace Entsoe
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="area"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task<string> QueryGeneration(
             Area area,
             DateTime start,
