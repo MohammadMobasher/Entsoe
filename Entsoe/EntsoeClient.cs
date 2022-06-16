@@ -59,6 +59,56 @@ namespace Entsoe
 
         }
 
+
+        private async Task<string> QueryCrossborder(
+            Area areaFrom,
+            Area areaTo, 
+            DateTime start, 
+            DateTime end,
+            MarketAgreementType? marketAgreementType,
+            BusinessType? businessType
+            
+        )
+        {
+            var areaInfoFrom = GetAreaInfo(areaFrom);
+            var areaInfoTo = GetAreaInfo(areaTo);
+
+            var request = GetBasicRequest(start, end);
+            request.AddParameter("in_Domain", areaInfoTo.Domain);
+            request.AddParameter("out_Domain", areaInfoFrom.Domain);
+
+
+
+            if (marketAgreementType != null)
+            {
+                request.AddParameter("Contract_MarketAgreement.Type", Enum.GetName(typeof(MarketAgreementType), marketAgreementType));
+            }
+
+            if (businessType != null)
+            {
+                request.AddParameter("businessType", Enum.GetName(typeof(BusinessType), businessType));
+            }
+
+
+            var response = await _client.ExecuteGetAsync(request);
+
+            if (response != null && response.IsSuccessful)
+            {
+                return response.Content!;
+            }
+            throw new Exception("");
+        }
+
+        //public async Task<string> QueryCrossborderFlows(
+        //    Area areaFrom,
+        //    Area areaTo,
+        //    DateTime start,
+        //    DateTime end
+        //)
+        //{
+
+        //}
+
         /// <summary>
         /// 
         /// </summary>
