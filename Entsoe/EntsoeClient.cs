@@ -58,7 +58,30 @@ namespace Entsoe
 
 
         }
+        public async Task<string> QueryGenerationForecast(
+            Area area,
+            DateTime start,
+            DateTime end,
+            ProccessType proccessType = ProccessType.A01
+        )
+        {
+            var areaInfo = GetAreaInfo(area);
 
+            var request = GetBasicRequest(start, end);
+            request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A65));
+            request.AddParameter("processType", Enum.GetName(typeof(ProccessType), proccessType));
+            //TODO: code or domain 
+            // python = code
+            request.AddParameter("outBiddingZone_Domain", areaInfo.Domain);
+
+            var response = await _client.ExecuteGetAsync(request);
+
+            if (response != null && response.IsSuccessful)
+            {
+                return response.Content!;
+            }
+            throw new Exception("");
+        }
 
 
         /// <summary>
