@@ -65,6 +65,37 @@ namespace Entsoe
         /// <param name="area"></param>
         /// <param name="start"></param>
         /// <param name="end"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public async Task<string> QueryLoad(
+            Area area,
+            DateTime start,
+            DateTime end
+        )
+        {
+            var areaInfo = GetAreaInfo(area);
+
+            var request = GetBasicRequest(start, end);
+            request.AddParameter("out_Domain", areaInfo.Domain);
+            request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A65));
+            request.AddParameter("processType", Enum.GetName(typeof(ProccessType), ProccessType.A16));
+            request.AddParameter("outBiddingZone_Domain", areaInfo.CountryCode);
+
+            var response = await _client.ExecuteGetAsync(request);
+
+            if (response != null && response.IsSuccessful)
+            {
+                return response.Content!;
+            }
+            throw new Exception("");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="area"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
         /// <param name="dayAhead"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
