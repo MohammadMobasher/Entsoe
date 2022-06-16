@@ -59,7 +59,18 @@ namespace Entsoe
 
         }
 
-
+        /// <summary>
+        /// Generic function called by query_crossborder_flows, 
+        /// query_scheduled_exchanges, query_net_transfer_capacity_DA/WA/MA/YA and query_.
+        /// </summary>
+        /// <param name="areaFrom"></param>
+        /// <param name="areaTo"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="marketAgreementType"></param>
+        /// <param name="businessType"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         private async Task<string> QueryCrossborder(
             Area areaFrom,
             Area areaTo, 
