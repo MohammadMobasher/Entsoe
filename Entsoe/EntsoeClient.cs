@@ -58,6 +58,33 @@ namespace Entsoe
 
 
         }
+
+        public async Task<string> QueryGeneration(
+            Area area,
+            DateTime start,
+            DateTime end
+        )
+        {
+            var areaInfo = GetAreaInfo(area);
+
+            var request = GetBasicRequest(start, end);
+            request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A75));
+            request.AddParameter("processType", Enum.GetName(typeof(ProccessType), ProccessType.A16));
+            request.AddParameter("in_Domain", areaInfo.Domain);
+            //TODO: what is the psr_type
+            //if(psr_type)
+            //    request.AddParameter("psrType", psr_type);
+
+            var response = await _client.ExecuteGetAsync(request);
+
+            if (response != null && response.IsSuccessful)
+            {
+                return response.Content!;
+            }
+            throw new Exception("");
+        }
+
+
         public async Task<string> QueryGenerationForecast(
             Area area,
             DateTime start,
