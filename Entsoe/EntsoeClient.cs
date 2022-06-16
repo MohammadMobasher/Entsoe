@@ -67,6 +67,39 @@ namespace Entsoe
         /// <param name="end"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
+        public async Task<string> QueryInstalledGenerationCapacity(
+            Area area,
+            DateTime start,
+            DateTime end
+        )
+        {
+            var areaInfo = GetAreaInfo(area);
+
+            var request = GetBasicRequest(start, end);
+            request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A68));
+            request.AddParameter("processType", Enum.GetName(typeof(ProccessType), ProccessType.A33));
+            request.AddParameter("in_Domain", areaInfo.Domain);
+            //TODO: what is the psr_type
+            //if(psr_type)
+            //    request.AddParameter("psrType", psr_type);
+
+            var response = await _client.ExecuteGetAsync(request);
+
+            if (response != null && response.IsSuccessful)
+            {
+                return response.Content!;
+            }
+            throw new Exception("");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="area"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task<string> QueryGenerationPerPlant(
             Area area,
             DateTime start,
