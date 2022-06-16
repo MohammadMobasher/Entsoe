@@ -59,6 +59,7 @@ namespace Entsoe
 
         }
 
+
         /// <summary>
         /// Generic function called by query_crossborder_flows, 
         /// query_scheduled_exchanges, query_net_transfer_capacity_DA/WA/MA/YA and query_.
@@ -73,12 +74,12 @@ namespace Entsoe
         /// <exception cref="Exception"></exception>
         private async Task<string> QueryCrossborder(
             Area areaFrom,
-            Area areaTo, 
-            DateTime start, 
+            Area areaTo,
+            DateTime start,
             DateTime end,
             MarketAgreementType? marketAgreementType,
             BusinessType? businessType
-            
+
         )
         {
             var areaInfoFrom = GetAreaInfo(areaFrom);
@@ -447,11 +448,15 @@ namespace Entsoe
             }
             else
             {
-                throw new Exception("");
+                if (response == null)
+                    throw new Exception("Response is empty");
+                else
+                {
+                    throw new Exception(String.Format("There is an error on fetching data, StatusCode : {0}, ", response.StatusCode));
+                }
+
+
             }
-
-
         }
-
     }
 }

@@ -1,0 +1,5 @@
+C:\Users\mohammad\Documents\Core\Entsoe\Entsoe\obj\Debug\net6.0\Entsoe.csproj.AssemblyReference.cache
+C:\Users\mohammad\Documents\Core\Entsoe\Entsoe\obj\Debug\net6.0\Entsoe.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mohammad\Documents\Core\Entsoe\Entsoe\obj\Debug\net6.0\Entsoe.AssemblyInfoInputs.cache
+C:\Users\mohammad\Documents\Core\Entsoe\Entsoe\obj\Debug\net6.0\Entsoe.AssemblyInfo.cs
+C:\Users\mohammad\Documents\Core\Entsoe\Entsoe\obj\Debug\net6.0\Entsoe.csproj.CoreCompileInputs.cache
