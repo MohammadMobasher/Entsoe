@@ -59,6 +59,32 @@ namespace Entsoe
 
         }
 
+        public async Task<string> QueryWindAndSolarForecast(
+            Area area,
+            DateTime start,
+            DateTime end,
+            ProccessType proccessType = ProccessType.A01)
+        {
+            var areaInfo = GetAreaInfo(area);
+
+            var request = GetBasicRequest(start, end);
+            request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A69));
+            request.AddParameter("processType", Enum.GetName(typeof(ProccessType), proccessType));
+            request.AddParameter("in_Domain", areaInfo.Domain);
+
+            //TODO: what is the psr_type
+            //if(psr_type)
+            //    request.AddParameter("psrType", psr_type);
+
+            var response = await _client.ExecuteGetAsync(request);
+
+            if (response != null && response.IsSuccessful)
+            {
+                return response.Content!;
+            }
+            throw new Exception("");
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -150,11 +176,11 @@ namespace Entsoe
             else
                 request.AddParameter("Contract_MarketAgreement.Type", Enum.GetName(typeof(MarketAgreementType), MarketAgreementType.A07));
 
-            
+
 
             var response = await _client.ExecuteGetAsync(request);
 
-            if(response != null && response.IsSuccessful)
+            if (response != null && response.IsSuccessful)
             {
                 return response.Content!;
             }
