@@ -72,7 +72,7 @@ namespace Entsoe
         /// <param name="businessType"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        private async Task<string> QueryCrossborder(
+        private async Task<string> QueryCrossborderFlows(
             Area areaFrom,
             Area areaTo,
             DateTime start,
