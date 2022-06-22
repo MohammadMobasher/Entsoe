@@ -255,6 +255,17 @@ namespace Entsoe
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="area">Country from Area</param>
+        /// <param name="start">Time for start period</param>
+        /// <param name="end">Time for end period</param>
+        /// <param name="proccessType">
+        /// default value is ProccessType.A01 => Day ahead
+        /// </param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task<string> QueryGenerationForecast(
             Area area,
             DateTime start,
@@ -265,11 +276,9 @@ namespace Entsoe
             var areaInfo = GetAreaInfo(area);
 
             var request = GetBasicRequest(start, end);
-            request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A65));
+            request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A71));
             request.AddParameter("processType", Enum.GetName(typeof(ProccessType), proccessType));
-            //TODO: code or domain 
-            // python = code
-            request.AddParameter("outBiddingZone_Domain", areaInfo.Domain);
+            request.AddParameter("in_Domain", areaInfo.Domain);
 
             var response = await _client.ExecuteGetAsync(request);
 
