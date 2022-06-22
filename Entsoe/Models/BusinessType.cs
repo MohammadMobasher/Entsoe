@@ -4,6 +4,10 @@ namespace Entsoe.Models
     public enum BusinessType
     {
         /// <summary>
+        /// General Capacity Information
+        /// </summary>
+        A25,
+        /// <summary>
         /// Already allocated capacity (AAC)
         /// </summary>
         A29,
@@ -82,6 +86,26 @@ namespace Entsoe.Models
         /// <summary>
         /// Production unit
         /// </summary>
-        B11
+        B11,
+        /// <summary>
+        /// Area Control Error
+        /// </summary>
+        B33,
+        /// <summary>
+        /// Procured capacity
+        /// </summary>
+        B95,
+        /// <summary>
+        /// Shared Balancing Reserve Capacity
+        /// </summary>
+        C22,
+        /// <summary>
+        /// Share of reserve capacity
+        /// </summary>
+        C23,
+        /// <summary>
+        /// Actual reserve capacity
+        /// </summary>
+        C24,
     }
 }
