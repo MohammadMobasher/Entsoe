@@ -351,9 +351,9 @@ namespace Entsoe
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="area"></param>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
+        /// <param name="area">Country from Area</param>
+        /// <param name="start">Time for start period</param>
+        /// <param name="end">Time for end period</param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
         public async Task<string> QueryLoad(
