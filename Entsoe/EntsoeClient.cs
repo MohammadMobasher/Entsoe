@@ -14,8 +14,8 @@ namespace Entsoe
     /// </summary>
     public class EntsoeClient
     {
-        private readonly RestClient _client;
         private readonly string _apiKey;
+        private readonly RestClient _client;
         private const string _entsoeUrl = "https://transparency.entsoe.eu/api";
 
         /// <summary>
@@ -382,10 +382,12 @@ namespace Entsoe
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="area"></param>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        /// <param name="dayAhead"></param>
+        /// <param name="area">Country from Area</param>
+        /// <param name="start">Time for start period</param>
+        /// <param name="end">Time for end period</param>
+        /// <param name="dayAhead">
+        /// if set true, return data Daily and if false return Intraday
+        /// </param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
         public async Task<string> QueryNetPosition(
@@ -406,7 +408,7 @@ namespace Entsoe
                 request.AddParameter("Contract_MarketAgreement.Type", Enum.GetName(typeof(MarketAgreementType), MarketAgreementType.A01));
             else
                 request.AddParameter("Contract_MarketAgreement.Type", Enum.GetName(typeof(MarketAgreementType), MarketAgreementType.A07));
-
+           
 
 
             var response = await _client.ExecuteGetAsync(request);
@@ -421,9 +423,9 @@ namespace Entsoe
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="area"></param>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
+        /// <param name="area">Country from Area</param>
+        /// <param name="start">Time for start period</param>
+        /// <param name="end">Time for end period</param>
         public async Task<BalancingMarketDocument> QueryDayAheadPrices(
             Area area,
             DateTime start,
@@ -449,6 +451,7 @@ namespace Entsoe
             else
             {
                 if (response == null)
+
                     throw new Exception("Response is empty");
                 else
                 {
