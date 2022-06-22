@@ -157,15 +157,17 @@ namespace Entsoe
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="area"></param>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
+        /// <param name="area">Country from Area</param>
+        /// <param name="start">Time for start period</param>
+        /// <param name="end">Time for end period</param>
+        /// <param name="psrType">When used, only queried production type is returned</param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
         public async Task<string> QueryInstalledGenerationCapacity(
             Area area,
             DateTime start,
-            DateTime end
+            DateTime end,
+            PsrType? psrType = null
         )
         {
             var areaInfo = GetAreaInfo(area);
@@ -174,9 +176,8 @@ namespace Entsoe
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A68));
             request.AddParameter("processType", Enum.GetName(typeof(ProccessType), ProccessType.A33));
             request.AddParameter("in_Domain", areaInfo.Domain);
-            //TODO: what is the psr_type
-            //if(psr_type)
-            //    request.AddParameter("psrType", psr_type);
+            if (psrType != null)
+                request.AddParameter("psrType", Enum.GetName(typeof(PsrType), psrType));
 
             var response = await _client.ExecuteGetAsync(request);
 
