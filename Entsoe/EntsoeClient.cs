@@ -117,6 +117,36 @@ namespace Entsoe
             throw new Exception("");
         }
 
+
+        /// <summary>
+        /// Allocated result documents, for OC evolution see query_intraday_offered_capacity
+        /// </summary>
+        /// <param name="areaFrom">Country from Area</param>
+        /// <param name="areaTo">Country to Area</param>
+        /// <param name="start">Time for start period</param>
+        /// <param name="end">Time for end period</param>
+        /// <param name="implicity">(True = implicit - default for most borders. False = explicit - for instance BE-GB)</param>
+        /// <returns></returns>
+        public async Task<string> QueryOfferedCapacity(
+            Area areaFrom,
+            Area areaTo,
+            DateTime start,
+            DateTime end,
+            bool implicity = true
+        )
+        {
+            return await QueryCrossborder(
+                areaFrom,
+                areaTo,
+                start,
+                end,
+                documentType: implicity ? DocumentType.A31 : DocumentType.A25,
+                marketAgreementType: MarketAgreementType.A07,
+                auctionType: implicity ? AuctionType.A01 : AuctionType.A02,
+                businessType: implicity ? null : BusinessType.B05);
+        }
+
+
         /// <summary>
         /// 
         /// </summary>
