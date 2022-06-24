@@ -24,6 +24,10 @@ namespace Entsoe
         /// <param name="apiKey"></param>
         public EntsoeClient(string apiKey)
         {
+            if (string.IsNullOrEmpty(apiKey))
+            {
+                throw new ArgumentNullException(nameof(apiKey));
+            }
             _apiKey = apiKey;
             var options = new RestClientOptions(_entsoeUrl)
             {
