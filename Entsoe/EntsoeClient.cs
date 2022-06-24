@@ -119,6 +119,43 @@ namespace Entsoe
 
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="area"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="marketAgreementType"></param>
+        /// <param name="psrType"></param>
+        /// <param name="offset"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public async Task<string> QueryContractedReservePrices(
+            Area area,
+            DateTime start,
+            DateTime end,
+            MarketAgreementType marketAgreementType,
+            PsrType? psrType = null,
+            int offset = 0
+        )
+        {
+            var areaInfo = GetAreaInfo(area);
+            var request = GetBasicRequest(start, end);
+            request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A89));
+            request.AddParameter("type_MarketAgreement.Type", Enum.GetName(typeof(MarketAgreementType), marketAgreementType));
+            request.AddParameter("controlArea_Domain", areaInfo.Domain);
+            request.AddParameter("offset", offset);
+            if (psrType != null)
+                request.AddParameter("psrType", Enum.GetName(typeof(PsrType), psrType));
+            var response = await _client.ExecuteGetAsync(request);
+
+            if (response != null && response.IsSuccessful)
+            {
+                return response.Content!;
+            }
+            throw new Exception("");
+        }
+
+        /// <summary>
         /// Allocated result documents, for OC evolution see query_intraday_offered_capacity
         /// </summary>
         /// <param name="areaFrom">Country from Area</param>
