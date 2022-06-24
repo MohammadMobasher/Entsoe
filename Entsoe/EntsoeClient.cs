@@ -119,6 +119,16 @@ namespace Entsoe
 
 
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="areaFrom">Country from Area</param>
+        /// <param name="areaTo">Country to Area</param>
+        /// <param name="start">Time for start period</param>
+        /// <param name="end">Time for end period</param>
+        /// <param name="dayAhead">if true MarketAgreementType.A01 else MarketAgreementType.A05</param>
+        /// <returns></returns>
         public async Task<string> QueryScheduledExchanges(
             Area areaFrom,
             Area areaTo,
