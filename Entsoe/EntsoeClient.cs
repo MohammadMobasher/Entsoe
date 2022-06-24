@@ -78,9 +78,9 @@ namespace Entsoe
             DateTime start,
             DateTime end,
             DocumentType documentType,
-            MarketAgreementType? marketAgreementType,
-            BusinessType? businessType,
-            AuctionType? auctionType
+            MarketAgreementType? marketAgreementType = null,
+            BusinessType? businessType = null,
+            AuctionType? auctionType = null
 
         )
         {
@@ -117,15 +117,30 @@ namespace Entsoe
             throw new Exception("");
         }
 
-        //public async Task<string> QueryCrossborderFlows(
-        //    Area areaFrom,
-        //    Area areaTo,
-        //    DateTime start,
-        //    DateTime end
-        //)
-        //{
 
-        //}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="areaFrom">Country from Area</param>
+        /// <param name="areaTo">Country to Area</param>
+        /// <param name="start">Time for start period</param>
+        /// <param name="end">Time for end period</param>
+        /// <returns></returns>
+        public async Task<string> QueryCrossborderFlows(
+            Area areaFrom,
+            Area areaTo,
+            DateTime start,
+            DateTime end
+        )
+        {
+            return await QueryCrossborder(areaFrom, areaTo, start, end, documentType:DocumentType.A11);
+        }
+
+
+
+
+       
 
         /// <summary>
         /// 
