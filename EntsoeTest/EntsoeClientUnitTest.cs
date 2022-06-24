@@ -24,5 +24,15 @@ namespace EntsoeTest
             Assert.AreEqual(hasArgumentNullException, true);
 
         }
+
+        [TestMethod]
+        public void QueryDayAheadPricesTest()
+        {
+            EntsoeClient entsoeClient = new("");
+            
+
+        }
+
+        
     }
 }

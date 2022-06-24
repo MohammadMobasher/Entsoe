@@ -63,7 +63,6 @@ namespace Entsoe
 
         }
 
-
         /// <summary>
         /// Generic function called by QueryCrossborderFlows, 
         /// QueryScheduledExchanges, QueryNetTransferCapacity_DA/WA/MA/YA and query_.
