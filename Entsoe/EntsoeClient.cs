@@ -117,6 +117,33 @@ namespace Entsoe
             throw new Exception("");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="areaFrom">Country from Area</param>
+        /// <param name="areaTo">Country to Area</param>
+        /// <param name="start">Time for start period</param>
+        /// <param name="end">Time for end period</param>
+        /// <param name="implicity">True = implicit - default for most borders. False = explicit - for instance BE-GB</param>
+        /// <returns></returns>
+        public async Task<string> QueryIntradayOfferedCapacity(
+            Area areaFrom,
+            Area areaTo,
+            DateTime start,
+            DateTime end,
+            bool implicity = true
+        )
+        {
+            return await QueryCrossborder(
+                areaFrom, 
+                areaTo, 
+                start, 
+                end, 
+                documentType: DocumentType.A31, 
+                marketAgreementType: MarketAgreementType.A07,
+                auctionType: implicity ? AuctionType.A01 : AuctionType.A02);
+        }
+
 
         /// <summary>
         /// 
