@@ -1,4 +1,7 @@
+using Entsoe;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Threading.Tasks;
 
 namespace EntsoeTest
 {
@@ -6,8 +9,19 @@ namespace EntsoeTest
     public class EntsoeClientUnitTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void EmptyApiKey()
         {
+            bool hasArgumentNullException = false;
+            try
+            {
+                EntsoeClient entsoeClient = new("");
+            }
+            catch (ArgumentNullException)
+            {
+                hasArgumentNullException = true;
+            }
+
+            Assert.AreEqual(hasArgumentNullException, true);
 
         }
     }

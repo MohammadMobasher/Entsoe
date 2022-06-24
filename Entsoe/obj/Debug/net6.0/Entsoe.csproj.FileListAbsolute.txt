@@ -3,3 +3,10 @@ C:\Users\mohammad\Documents\Core\Entsoe\Entsoe\obj\Debug\net6.0\Entsoe.Generated
 C:\Users\mohammad\Documents\Core\Entsoe\Entsoe\obj\Debug\net6.0\Entsoe.AssemblyInfoInputs.cache
 C:\Users\mohammad\Documents\Core\Entsoe\Entsoe\obj\Debug\net6.0\Entsoe.AssemblyInfo.cs
 C:\Users\mohammad\Documents\Core\Entsoe\Entsoe\obj\Debug\net6.0\Entsoe.csproj.CoreCompileInputs.cache
+C:\Users\mohammad\Documents\Core\Entsoe\Entsoe\bin\Debug\net6.0\Entsoe.deps.json
+C:\Users\mohammad\Documents\Core\Entsoe\Entsoe\bin\Debug\net6.0\Entsoe.dll
+C:\Users\mohammad\Documents\Core\Entsoe\Entsoe\bin\Debug\net6.0\ref\Entsoe.dll
+C:\Users\mohammad\Documents\Core\Entsoe\Entsoe\bin\Debug\net6.0\Entsoe.pdb
+C:\Users\mohammad\Documents\Core\Entsoe\Entsoe\obj\Debug\net6.0\Entsoe.dll
+C:\Users\mohammad\Documents\Core\Entsoe\Entsoe\obj\Debug\net6.0\ref\Entsoe.dll
+C:\Users\mohammad\Documents\Core\Entsoe\Entsoe\obj\Debug\net6.0\Entsoe.pdb
