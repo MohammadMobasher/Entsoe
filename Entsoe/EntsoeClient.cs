@@ -117,6 +117,25 @@ namespace Entsoe
             throw new Exception("");
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="areaFrom">Country from Area</param>
+        /// <param name="areaTo">Country to Area</param>
+        /// <param name="start">Time for start period</param>
+        /// <param name="end">Time for end period</param>
+        /// <returns></returns>
+        public async Task<string> QueryNetTransferCapacityYearahead(
+            Area areaFrom,
+            Area areaTo,
+            DateTime start,
+            DateTime end
+        )
+        {
+            return await QueryCrossborder(areaFrom, areaTo, start, end, documentType: DocumentType.A61, marketAgreementType: MarketAgreementType.A04);
+        }
+
         /// <summary>
         /// 
         /// </summary>
