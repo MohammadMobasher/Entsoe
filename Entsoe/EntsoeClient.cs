@@ -119,6 +119,19 @@ namespace Entsoe
 
 
 
+        public async Task<string> QueryScheduledExchanges(
+            Area areaFrom,
+            Area areaTo,
+            DateTime start,
+            DateTime end,
+            bool dayAhead = false
+        )
+        {
+            MarketAgreementType marketAgreementType = dayAhead ? MarketAgreementType.A01 : MarketAgreementType.A05;
+            return await QueryCrossborder(areaFrom, areaTo, start, end, documentType: DocumentType.A09, marketAgreementType: marketAgreementType);
+        }
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -138,9 +151,6 @@ namespace Entsoe
         }
 
 
-
-
-       
 
         /// <summary>
         /// 
