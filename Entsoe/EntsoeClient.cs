@@ -61,24 +61,26 @@ namespace Entsoe
 
 
         /// <summary>
-        /// Generic function called by query_crossborder_flows, 
-        /// query_scheduled_exchanges, query_net_transfer_capacity_DA/WA/MA/YA and query_.
+        /// Generic function called by QueryCrossborderFlows, 
+        /// QueryScheduledExchanges, QueryNetTransferCapacity_DA/WA/MA/YA and query_.
         /// </summary>
         /// <param name="areaFrom"></param>
         /// <param name="areaTo"></param>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
+        /// <param name="start">Time for start period</param>
+        /// <param name="end">Time for end period</param>
         /// <param name="marketAgreementType"></param>
         /// <param name="businessType"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        private async Task<string> QueryCrossborderFlows(
+        private async Task<string> QueryCrossborder(
             Area areaFrom,
             Area areaTo,
             DateTime start,
             DateTime end,
+            DocumentType documentType,
             MarketAgreementType? marketAgreementType,
-            BusinessType? businessType
+            BusinessType? businessType,
+            AuctionType? auctionType
 
         )
         {
@@ -88,8 +90,7 @@ namespace Entsoe
             var request = GetBasicRequest(start, end);
             request.AddParameter("in_Domain", areaInfoTo.Domain);
             request.AddParameter("out_Domain", areaInfoFrom.Domain);
-
-
+            request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), documentType));
 
             if (marketAgreementType != null)
             {
@@ -99,6 +100,11 @@ namespace Entsoe
             if (businessType != null)
             {
                 request.AddParameter("businessType", Enum.GetName(typeof(BusinessType), businessType));
+            }
+
+            if (auctionType != null)
+            {
+                request.AddParameter("Auction.Type", Enum.GetName(typeof(AuctionType), auctionType));
             }
 
 
