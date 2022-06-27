@@ -4,7 +4,7 @@ using System;
 
 namespace EntsoeTest
 {
-    public class UnitTest1
+    public class EntsoeClientTest
     {
         [Fact]
         public void EmptyApiKey()
@@ -25,5 +25,16 @@ namespace EntsoeTest
             // ASSERT
             Assert.True(hasArgumentNullException);
         }
+
+
+        [Fact]
+        public void QueryDayAheadPricesTest()
+        {
+            EntsoeClient entsoeClient = new("");
+
+
+        }
+
+
     }
 }
