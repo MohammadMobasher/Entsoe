@@ -5,7 +5,12 @@
       "ProjectGuid": "1cbde968-0861-4374-92ef-0a444299327d",
       "DisplayName": "Entsoe",
       "ColorIndex": 0
+    },
+    "104a698b-103b-40b7-b586-9dec0086b64e": {
+      "ProjectGuid": "104a698b-103b-40b7-b586-9dec0086b64e",
+      "DisplayName": "EntsoeTest",
+      "ColorIndex": 1
     }
   },
-  "NextColorIndex": 1
+  "NextColorIndex": 2
 }

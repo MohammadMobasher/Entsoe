@@ -1,17 +1,37 @@
 using Entsoe;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+//using Microsoft.Extensions.Configuration;
+//using Microsoft.VisualStudio.TestTools.UnitTesting;
+//using NUnit.Framework;
 using System;
-using System.Threading.Tasks;
+//using System.Threading.Tasks;
+using Xunit;
 
 namespace EntsoeTest
 {
-    [TestClass]
     public class EntsoeClientUnitTest
     {
-        [TestMethod]
+        //private EntsoeClient entsoeClient;
+
+
+        //[SetUp]
+        //public void Setup()
+        //{
+        //    var builder = new ConfigurationBuilder()
+        //       .AddUserSecrets<EntsoeClientUnitTest>();
+
+        //    var Configuration = builder.Build();
+        //    string _apiKey = "";
+        //    entsoeClient = new(_apiKey);
+        //}
+
+
+        [Fact]
         public void EmptyApiKey()
         {
+            // ARRANGE
             bool hasArgumentNullException = false;
+
+            // ACT
             try
             {
                 EntsoeClient entsoeClient = new("");
@@ -21,17 +41,17 @@ namespace EntsoeTest
                 hasArgumentNullException = true;
             }
 
-            Assert.AreEqual(hasArgumentNullException, true);
-
+            // ASSERT
+            Assert.True(hasArgumentNullException);
         }
 
-        [TestMethod]
-        public void QueryDayAheadPricesTest()
-        {
-            EntsoeClient entsoeClient = new("");
+        //[Fact]
+        //public void QueryDayAheadPricesTest()
+        //{
+        //    EntsoeClient entsoeClient = new("");
             
 
-        }
+        //}
 
         
     }
