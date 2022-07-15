@@ -1,13 +1,29 @@
 using Xunit;
 using Entsoe;
 using System;
+using Microsoft.Extensions.Configuration;
+using Entsoe.Models;
+using System.Threading.Tasks;
 
 namespace EntsoeTest
 {
     public class EntsoeClientTest
     {
+        private string _apiKey { get; set; }
+        private EntsoeClient entsoeClient { get; set; }
+
+        public EntsoeClientTest()
+        {
+            var configuration = new ConfigurationBuilder().AddUserSecrets<Setting>().Build();
+
+            _apiKey = configuration.GetSection("ApiKey").Value;
+
+            entsoeClient = new(_apiKey);
+        }
+
+
         [Fact]
-        public void EmptyApiKey()
+        public void EmptyApiKeyTest()
         {
             // ARRANGE
             bool hasArgumentNullException = false;
@@ -28,11 +44,16 @@ namespace EntsoeTest
 
 
         [Fact]
-        public void QueryDayAheadPricesTest()
+        public async Task QueryDayAheadPricesRejectionRequestTest()
         {
-            EntsoeClient entsoeClient = new("");
 
+            // ARRANGE
+            Area area = Area.AL;
+            DateTime start = new(2021, 01, 01, 12, 0, 0, DateTimeKind.Utc);
+            DateTime end = new(2021, 01, 02, 12, 0, 0, DateTimeKind.Utc);
 
+            // ACT + ASSERT
+            await Assert.ThrowsAsync<Exception>(() => (entsoeClient.QueryDayAheadPrices(area, start, end)));
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using Entsoe.Models;
+using Entsoe.Models.Result;
 using Newtonsoft.Json;
 using RestSharp;
 using System.Reflection;
@@ -41,8 +42,8 @@ namespace Entsoe
             var request = new RestRequest();
 
             request.AddParameter("securityToken", _apiKey);
-            request.AddParameter("periodStart", start);
-            request.AddParameter("periodEnd", end);
+            request.AddParameter("periodStart", start.ToString("yyyyMMddHH00"));
+            request.AddParameter("periodEnd", end.ToString("yyyyMMddHH00"));
 
             return request;
         }
@@ -672,7 +673,12 @@ namespace Entsoe
                 XmlDocument doc = new();
                 doc.LoadXml(response.Content!);
 
-                string json = JsonConvert.SerializeXmlNode(doc);
+                doc.RemoveChild(doc.FirstChild);
+
+                string json = JsonConvert.SerializeXmlNode(doc, Newtonsoft.Json.Formatting.Indented, true);
+
+                CheckValidResponse(json);
+
                 return JsonConvert.DeserializeObject<BalancingMarketDocument>(json)!;
             }
             else
@@ -686,6 +692,17 @@ namespace Entsoe
                 }
 
 
+            }
+        }
+
+
+        private void CheckValidResponse(string input)
+        {
+            var result = JsonConvert.DeserializeObject<AcknowledgementMarketDocument>(input)!;
+
+            if (result.Reason.Code == 999)
+            {
+                throw new Exception(result.Text);
             }
         }
     }

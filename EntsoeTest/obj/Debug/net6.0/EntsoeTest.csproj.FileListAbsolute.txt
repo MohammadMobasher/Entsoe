@@ -101,3 +101,12 @@ C:\Users\mohammad\Documents\Core\Entsoe\EntsoeTest\obj\Debug\net6.0\EntsoeTest.d
 C:\Users\mohammad\Documents\Core\Entsoe\EntsoeTest\obj\Debug\net6.0\ref\EntsoeTest.dll
 C:\Users\mohammad\Documents\Core\Entsoe\EntsoeTest\obj\Debug\net6.0\EntsoeTest.pdb
 C:\Users\mohammad\Documents\Core\Entsoe\EntsoeTest\obj\Debug\net6.0\EntsoeTest.genruntimeconfig.cache
+C:\Users\mohammad\Documents\Core\Entsoe\EntsoeTest\bin\Debug\net6.0\Microsoft.Extensions.Configuration.dll
+C:\Users\mohammad\Documents\Core\Entsoe\EntsoeTest\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\mohammad\Documents\Core\Entsoe\EntsoeTest\bin\Debug\net6.0\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\Users\mohammad\Documents\Core\Entsoe\EntsoeTest\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Json.dll
+C:\Users\mohammad\Documents\Core\Entsoe\EntsoeTest\bin\Debug\net6.0\Microsoft.Extensions.Configuration.UserSecrets.dll
+C:\Users\mohammad\Documents\Core\Entsoe\EntsoeTest\bin\Debug\net6.0\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\mohammad\Documents\Core\Entsoe\EntsoeTest\bin\Debug\net6.0\Microsoft.Extensions.FileProviders.Physical.dll
+C:\Users\mohammad\Documents\Core\Entsoe\EntsoeTest\bin\Debug\net6.0\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\Users\mohammad\Documents\Core\Entsoe\EntsoeTest\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
