@@ -37,9 +37,11 @@ namespace Entsoe
             _client = new RestClient(options);
         }
 
-        private RestRequest GetBasicRequest(DateTime start, DateTime end)
+        private RestRequest BasicRequest(DateTime start, DateTime end)
         {
+            //====================================
             var request = new RestRequest();
+            //====================================
 
             request.AddParameter("securityToken", _apiKey);
             request.AddParameter("periodStart", start.ToString("yyyyMMddHH00"));
@@ -91,7 +93,7 @@ namespace Entsoe
             var areaInfoFrom = GetAreaInfo(areaFrom);
             var areaInfoTo = GetAreaInfo(areaTo);
 
-            var request = GetBasicRequest(start, end);
+            var request = BasicRequest(start, end);
             request.AddParameter("in_Domain", areaInfoTo.Domain);
             request.AddParameter("out_Domain", areaInfoFrom.Domain);
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), documentType));
@@ -125,12 +127,12 @@ namespace Entsoe
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="area"></param>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        /// <param name="marketAgreementType"></param>
-        /// <param name="psrType"></param>
-        /// <param name="offset"></param>
+        /// <param name="area">Area</param>
+        /// <param name="start">from</param>
+        /// <param name="end">to</param>
+        /// <param name="marketAgreementType">type of contract (see mappings.MARKETAGREEMENTTYPE)</param>
+        /// <param name="psrType">filter query for a specific psr type</param>
+        /// <param name="offset">offset for querying more than 100 documents</param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
         public async Task<string> QueryContractedReservePrices(
@@ -142,22 +144,43 @@ namespace Entsoe
             int offset = 0
         )
         {
-            var areaInfo = GetAreaInfo(area);
-            var request = GetBasicRequest(start, end);
+            AreaInfoAttribute areaInfo = GetAreaInfo(area);
+            RestRequest request = BasicRequest(start, end);
+
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A89));
             request.AddParameter("type_MarketAgreement.Type", Enum.GetName(typeof(MarketAgreementType), marketAgreementType));
             request.AddParameter("controlArea_Domain", areaInfo.Domain);
             request.AddParameter("offset", offset);
             if (psrType != null)
                 request.AddParameter("psrType", Enum.GetName(typeof(PsrType), psrType));
+
             var response = await _client.ExecuteGetAsync(request);
 
-            if (response != null && response.IsSuccessful)
-            {
-                return response.Content!;
-            }
-            throw new Exception("");
+            if (response == null || !response.IsSuccessful)
+                throw new Exception("Something wrong please try again...");
+            
+            return response.Content!;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// Allocated result documents, for OC evolution see query_intraday_offered_capacity
@@ -352,7 +375,7 @@ namespace Entsoe
         {
             var areaInfo = GetAreaInfo(area);
 
-            var request = GetBasicRequest(start, end);
+            var request = BasicRequest(start, end);
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A71));
             request.AddParameter("processType", Enum.GetName(typeof(ProccessType), ProccessType.A33));
             request.AddParameter("in_Domain", areaInfo.Domain);
@@ -386,7 +409,7 @@ namespace Entsoe
         {
             var areaInfo = GetAreaInfo(area);
 
-            var request = GetBasicRequest(start, end);
+            var request = BasicRequest(start, end);
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A68));
             request.AddParameter("processType", Enum.GetName(typeof(ProccessType), ProccessType.A33));
             request.AddParameter("in_Domain", areaInfo.Domain);
@@ -420,7 +443,7 @@ namespace Entsoe
         {
             var areaInfo = GetAreaInfo(area);
 
-            var request = GetBasicRequest(start, end);
+            var request = BasicRequest(start, end);
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A73));
             request.AddParameter("processType", Enum.GetName(typeof(ProccessType), ProccessType.A16));
             request.AddParameter("in_Domain", areaInfo.Domain);
@@ -455,7 +478,7 @@ namespace Entsoe
         {
             var areaInfo = GetAreaInfo(area);
 
-            var request = GetBasicRequest(start, end);
+            var request = BasicRequest(start, end);
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A75));
             request.AddParameter("processType", Enum.GetName(typeof(ProccessType), ProccessType.A16));
             request.AddParameter("in_Domain", areaInfo.Domain);
@@ -492,7 +515,7 @@ namespace Entsoe
         {
             var areaInfo = GetAreaInfo(area);
 
-            var request = GetBasicRequest(start, end);
+            var request = BasicRequest(start, end);
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A71));
             request.AddParameter("processType", Enum.GetName(typeof(ProccessType), proccessType));
             request.AddParameter("in_Domain", areaInfo.Domain);
@@ -526,7 +549,7 @@ namespace Entsoe
         {
             var areaInfo = GetAreaInfo(area);
 
-            var request = GetBasicRequest(start, end);
+            var request = BasicRequest(start, end);
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A69));
             request.AddParameter("processType", Enum.GetName(typeof(ProccessType), proccessType));
             request.AddParameter("in_Domain", areaInfo.Domain);
@@ -561,7 +584,7 @@ namespace Entsoe
         {
             var areaInfo = GetAreaInfo(area);
 
-            var request = GetBasicRequest(start, end);
+            var request = BasicRequest(start, end);
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A65));
             request.AddParameter("processType", Enum.GetName(typeof(ProccessType), proccessType));
             request.AddParameter("outBiddingZone_Domain", areaInfo.CountryCode);
@@ -592,7 +615,7 @@ namespace Entsoe
         {
             var areaInfo = GetAreaInfo(area);
 
-            var request = GetBasicRequest(start, end);
+            var request = BasicRequest(start, end);
             request.AddParameter("out_Domain", areaInfo.Domain);
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A65));
             request.AddParameter("processType", Enum.GetName(typeof(ProccessType), ProccessType.A16));
@@ -627,7 +650,7 @@ namespace Entsoe
         {
             var areaInfo = GetAreaInfo(area);
 
-            var request = GetBasicRequest(start, end);
+            var request = BasicRequest(start, end);
             request.AddParameter("in_Domain", areaInfo.Domain);
             request.AddParameter("out_Domain", areaInfo.Domain);
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A25));
@@ -661,7 +684,7 @@ namespace Entsoe
         )
         {
             var areaInfo = GetAreaInfo(area);
-            var request = GetBasicRequest(start, end);
+            var request = BasicRequest(start, end);
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A44));
             request.AddParameter("in_Domain", areaInfo.Domain);
             request.AddParameter("out_Domain", areaInfo.Domain);
