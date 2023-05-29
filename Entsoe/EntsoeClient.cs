@@ -163,27 +163,8 @@ namespace Entsoe
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         /// <summary>
-        /// Allocated result documents, for OC evolution see query_intraday_offered_capacity
+        /// Allocated result documents, for OC evolution see QueryIntradayOfferedCapacity
         /// </summary>
         /// <param name="areaFrom">Country from Area</param>
         /// <param name="areaTo">Country to Area</param>
@@ -209,6 +190,25 @@ namespace Entsoe
                 auctionType: implicity ? AuctionType.A01 : AuctionType.A02,
                 businessType: implicity ? null : BusinessType.B05);
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         /// <summary>
