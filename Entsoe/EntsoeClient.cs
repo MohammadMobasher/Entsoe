@@ -17,7 +17,7 @@ namespace Entsoe
     {
         private readonly string _apiKey;
         private readonly RestClient _client;
-        private const string _entsoeUrl = "https://transparency.entsoe.eu/api";
+        private const string _entsoeUrl = "https://web-api.tp.entsoe.eu/api";
 
         /// <summary>
         /// 
@@ -32,7 +32,7 @@ namespace Entsoe
             _apiKey = apiKey;
             var options = new RestClientOptions(_entsoeUrl)
             {
-                Timeout = 30000
+                MaxTimeout = 30000
             };
             _client = new RestClient(options);
         }
