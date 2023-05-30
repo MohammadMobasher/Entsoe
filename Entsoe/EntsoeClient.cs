@@ -30,17 +30,23 @@ namespace Entsoe
                 throw new ArgumentNullException(nameof(apiKey));
             }
             _apiKey = apiKey;
-            var options = new RestClientOptions(_entsoeUrl)
+            RestClientOptions options = new(_entsoeUrl)
             {
                 MaxTimeout = 30000
             };
             _client = new RestClient(options);
         }
 
+        /// <summary>
+        /// create a basic request based start time and end time
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
         private RestRequest BasicRequest(DateTime start, DateTime end)
         {
             //====================================
-            var request = new RestRequest();
+            RestRequest request = new();
             //====================================
 
             request.AddParameter("securityToken", _apiKey);
@@ -50,20 +56,19 @@ namespace Entsoe
             return request;
         }
 
+
+        /// <summary>
+        /// get area information from Area
+        /// </summary>
+        /// <param name="area"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         private static AreaInfoAttribute GetAreaInfo(Area area)
         {
-            var obj = area.GetType()
+            return area.GetType()
                     .GetMember(area.ToString())
                     .First()
-                    .GetCustomAttribute<AreaInfoAttribute>();
-            if (obj == null)
-            {
-                throw new Exception("");
-            }
-
-            return obj;
-
-
+                    .GetCustomAttribute<AreaInfoAttribute>() ?? throw new Exception("");
         }
 
         /// <summary>
@@ -90,37 +95,30 @@ namespace Entsoe
 
         )
         {
-            var areaInfoFrom = GetAreaInfo(areaFrom);
-            var areaInfoTo = GetAreaInfo(areaTo);
+            RestRequest request = BasicRequest(start, end);
+            AreaInfoAttribute areaInfoTo = GetAreaInfo(areaTo);
+            AreaInfoAttribute areaInfoFrom = GetAreaInfo(areaFrom);
 
-            var request = BasicRequest(start, end);
             request.AddParameter("in_Domain", areaInfoTo.Domain);
             request.AddParameter("out_Domain", areaInfoFrom.Domain);
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), documentType));
 
             if (marketAgreementType != null)
-            {
                 request.AddParameter("Contract_MarketAgreement.Type", Enum.GetName(typeof(MarketAgreementType), marketAgreementType));
-            }
 
             if (businessType != null)
-            {
                 request.AddParameter("businessType", Enum.GetName(typeof(BusinessType), businessType));
-            }
 
             if (auctionType != null)
-            {
                 request.AddParameter("Auction.Type", Enum.GetName(typeof(AuctionType), auctionType));
-            }
 
 
-            var response = await _client.ExecuteGetAsync(request);
+            RestResponse response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
 
-            if (response != null && response.IsSuccessful)
-            {
-                return response.Content!;
-            }
-            throw new Exception("");
+            if (!response.IsSuccessful)
+                throw new Exception(response.ErrorMessage);
+
+            return response.Content!;
         }
 
 
@@ -158,7 +156,7 @@ namespace Entsoe
 
             if (response == null || !response.IsSuccessful)
                 throw new Exception("Something wrong please try again...");
-            
+
             return response.Content!;
         }
 
@@ -210,11 +208,11 @@ namespace Entsoe
         )
         {
             return await QueryCrossborder(
-                areaFrom, 
-                areaTo, 
-                start, 
-                end, 
-                documentType: DocumentType.A31, 
+                areaFrom,
+                areaTo,
+                start,
+                end,
+                documentType: DocumentType.A31,
                 marketAgreementType: MarketAgreementType.A07,
                 auctionType: implicity ? AuctionType.A01 : AuctionType.A02);
         }
@@ -241,11 +239,11 @@ namespace Entsoe
         )
         {
             return await QueryCrossborder(
-                areaFrom, 
-                areaTo, 
-                start, 
-                end, 
-                documentType: DocumentType.A61, 
+                areaFrom,
+                areaTo,
+                start,
+                end,
+                documentType: DocumentType.A61,
                 marketAgreementType: MarketAgreementType.A04
             );
         }
@@ -273,11 +271,11 @@ namespace Entsoe
         )
         {
             return await QueryCrossborder(
-                areaFrom, 
-                areaTo, 
-                start, 
-                end, 
-                documentType: DocumentType.A61, 
+                areaFrom,
+                areaTo,
+                start,
+                end,
+                documentType: DocumentType.A61,
                 marketAgreementType: MarketAgreementType.A03
             );
         }
@@ -299,11 +297,11 @@ namespace Entsoe
         )
         {
             return await QueryCrossborder(
-                areaFrom, 
-                areaTo, 
-                start, 
-                end, 
-                documentType: DocumentType.A61, 
+                areaFrom,
+                areaTo,
+                start,
+                end,
+                documentType: DocumentType.A61,
                 marketAgreementType: MarketAgreementType.A02
             );
         }
@@ -325,11 +323,11 @@ namespace Entsoe
         )
         {
             return await QueryCrossborder(
-                areaFrom, 
-                areaTo, 
-                start, 
-                end, 
-                documentType: DocumentType.A61, 
+                areaFrom,
+                areaTo,
+                start,
+                end,
+                documentType: DocumentType.A61,
                 marketAgreementType: MarketAgreementType.A01
             );
         }
@@ -354,11 +352,11 @@ namespace Entsoe
         )
         {
             return await QueryCrossborder(
-                areaFrom, 
-                areaTo, 
-                start, 
-                end, 
-                documentType: DocumentType.A09, 
+                areaFrom,
+                areaTo,
+                start,
+                end,
+                documentType: DocumentType.A09,
                 marketAgreementType: dayAhead ? MarketAgreementType.A01 : MarketAgreementType.A05);
         }
 
@@ -379,11 +377,11 @@ namespace Entsoe
         )
         {
             return await QueryCrossborder(
-                areaFrom, 
-                areaTo, 
-                start, 
-                end, 
-                documentType:DocumentType.A11
+                areaFrom,
+                areaTo,
+                start,
+                end,
+                documentType: DocumentType.A11
             );
         }
 
@@ -405,16 +403,16 @@ namespace Entsoe
             PsrType? psrType = null
         )
         {
-            var areaInfo = GetAreaInfo(area);
-
             var request = BasicRequest(start, end);
+            AreaInfoAttribute areaInfo = GetAreaInfo(area);
+
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A71));
             request.AddParameter("processType", Enum.GetName(typeof(ProccessType), ProccessType.A33));
             request.AddParameter("in_Domain", areaInfo.Domain);
             if (psrType != null)
                 request.AddParameter("psrType", Enum.GetName(typeof(PsrType), psrType));
 
-            var response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
+            RestResponse response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
 
             if (!response.IsSuccessful)
                 throw new Exception(response.ErrorMessage);
@@ -438,16 +436,16 @@ namespace Entsoe
             PsrType? psrType = null
         )
         {
-            var areaInfo = GetAreaInfo(area);
+            AreaInfoAttribute areaInfo = GetAreaInfo(area);
+            RestRequest request = BasicRequest(start, end);
 
-            var request = BasicRequest(start, end);
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A68));
             request.AddParameter("processType", Enum.GetName(typeof(ProccessType), ProccessType.A33));
             request.AddParameter("in_Domain", areaInfo.Domain);
             if (psrType != null)
                 request.AddParameter("psrType", Enum.GetName(typeof(PsrType), psrType));
 
-            var response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
+            RestResponse response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
 
             if (!response.IsSuccessful)
                 throw new Exception(response.ErrorMessage);
@@ -473,16 +471,16 @@ namespace Entsoe
             PsrType? psrType = null
         )
         {
-            var areaInfo = GetAreaInfo(area);
+            AreaInfoAttribute areaInfo = GetAreaInfo(area);
+            RestRequest request = BasicRequest(start, end);
 
-            var request = BasicRequest(start, end);
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A73));
             request.AddParameter("processType", Enum.GetName(typeof(ProccessType), ProccessType.A16));
             request.AddParameter("in_Domain", areaInfo.Domain);
             if (psrType != null)
                 request.AddParameter("psrType", Enum.GetName(typeof(PsrType), psrType));
 
-            var response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
+            RestResponse response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
 
             if (!response.IsSuccessful)
                 throw new Exception(response.ErrorMessage);
@@ -507,16 +505,16 @@ namespace Entsoe
             PsrType? psrType = null
         )
         {
-            var areaInfo = GetAreaInfo(area);
+            AreaInfoAttribute areaInfo = GetAreaInfo(area);
+            RestRequest request = BasicRequest(start, end);
 
-            var request = BasicRequest(start, end);
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A75));
             request.AddParameter("processType", Enum.GetName(typeof(ProccessType), ProccessType.A16));
             request.AddParameter("in_Domain", areaInfo.Domain);
             if (psrType != null)
                 request.AddParameter("psrType", Enum.GetName(typeof(PsrType), psrType));
 
-            var response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
+            RestResponse response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
 
             if (!response.IsSuccessful)
                 throw new Exception(response.ErrorMessage);
@@ -543,14 +541,14 @@ namespace Entsoe
             ProccessType proccessType = ProccessType.A01
         )
         {
-            var areaInfo = GetAreaInfo(area);
+            RestRequest request = BasicRequest(start, end);
+            AreaInfoAttribute areaInfo = GetAreaInfo(area);
 
-            var request = BasicRequest(start, end);
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A71));
             request.AddParameter("processType", Enum.GetName(typeof(ProccessType), proccessType));
             request.AddParameter("in_Domain", areaInfo.Domain);
 
-            var response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
+            RestResponse response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
 
             if (!response.IsSuccessful)
                 throw new Exception(response.ErrorMessage);
@@ -576,9 +574,9 @@ namespace Entsoe
             ProccessType proccessType = ProccessType.A01,
             PsrType? psrType = null)
         {
-            var areaInfo = GetAreaInfo(area);
+            AreaInfoAttribute areaInfo = GetAreaInfo(area);
+            RestRequest request = BasicRequest(start, end);
 
-            var request = BasicRequest(start, end);
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A69));
             request.AddParameter("processType", Enum.GetName(typeof(ProccessType), proccessType));
             request.AddParameter("in_Domain", areaInfo.Domain);
@@ -586,7 +584,7 @@ namespace Entsoe
             if (psrType != null)
                 request.AddParameter("psrType", Enum.GetName(typeof(PsrType), psrType));
 
-            var response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
+            RestResponse response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
 
             if (!response.IsSuccessful)
                 throw new Exception(response.ErrorMessage);
@@ -610,14 +608,14 @@ namespace Entsoe
             DateTime end,
             ProccessType proccessType = ProccessType.A01)
         {
-            var areaInfo = GetAreaInfo(area);
+            RestRequest request = BasicRequest(start, end);
+            AreaInfoAttribute areaInfo = GetAreaInfo(area);
 
-            var request = BasicRequest(start, end);
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A65));
             request.AddParameter("processType", Enum.GetName(typeof(ProccessType), proccessType));
             request.AddParameter("outBiddingZone_Domain", areaInfo.CountryCode);
 
-            var response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
+            RestResponse response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
 
             if (!response.IsSuccessful)
                 throw new Exception(response.ErrorMessage);
@@ -640,15 +638,15 @@ namespace Entsoe
             DateTime end
         )
         {
-            var areaInfo = GetAreaInfo(area);
+            RestRequest request = BasicRequest(start, end);
+            AreaInfoAttribute areaInfo = GetAreaInfo(area);
 
-            var request = BasicRequest(start, end);
             request.AddParameter("out_Domain", areaInfo.Domain);
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A65));
             request.AddParameter("processType", Enum.GetName(typeof(ProccessType), ProccessType.A16));
             request.AddParameter("outBiddingZone_Domain", areaInfo.CountryCode);
 
-            var response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
+            RestResponse response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
 
             if (!response.IsSuccessful)
                 throw new Exception(response.ErrorMessage);
@@ -672,9 +670,9 @@ namespace Entsoe
             bool dayAhead = true
         )
         {
-            var areaInfo = GetAreaInfo(area);
+            RestRequest request = BasicRequest(start, end);
+            AreaInfoAttribute areaInfo = GetAreaInfo(area);
 
-            var request = BasicRequest(start, end);
             request.AddParameter("in_Domain", areaInfo.Domain);
             request.AddParameter("out_Domain", areaInfo.Domain);
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A25));
@@ -682,7 +680,7 @@ namespace Entsoe
 
             request.AddParameter("Contract_MarketAgreement.Type", Enum.GetName(typeof(MarketAgreementType), dayAhead ? MarketAgreementType.A01 : MarketAgreementType.A07));
 
-            var response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
+            RestResponse response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
 
             if (!response.IsSuccessful)
                 throw new Exception(response.ErrorMessage);
@@ -702,13 +700,14 @@ namespace Entsoe
             DateTime end
         )
         {
-            var areaInfo = GetAreaInfo(area);
-            var request = BasicRequest(start, end);
+            RestRequest request = BasicRequest(start, end);
+            AreaInfoAttribute areaInfo = GetAreaInfo(area);
+
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A44));
             request.AddParameter("in_Domain", areaInfo.Domain);
             request.AddParameter("out_Domain", areaInfo.Domain);
 
-            var response = await _client.ExecuteGetAsync(request);
+            RestResponse response = await _client.ExecuteGetAsync(request);
 
             if (response != null && response.IsSuccessful)
             {
@@ -745,12 +744,10 @@ namespace Entsoe
         /// <exception cref="Exception"></exception>
         private static void CheckValidResponse(string input)
         {
-            var result = JsonConvert.DeserializeObject<AcknowledgementMarketDocument>(input)!;
+            AcknowledgementMarketDocument result = JsonConvert.DeserializeObject<AcknowledgementMarketDocument>(input)!;
 
             if (result.Reason.Code == 999)
-            {
                 throw new Exception(result.Text);
-            }
         }
     }
 }
