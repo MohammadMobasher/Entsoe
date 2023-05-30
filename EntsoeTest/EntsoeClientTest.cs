@@ -31,7 +31,7 @@ namespace EntsoeTest
             // ACT
             try
             {
-                EntsoeClient entsoeClient = new("");
+                EntsoeClient entsoeClient = new(string.Empty);
             }
             catch (ArgumentNullException)
             {
