@@ -192,25 +192,6 @@ namespace Entsoe
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         /// <summary>
         /// 
         /// </summary>
@@ -239,6 +220,11 @@ namespace Entsoe
         }
 
 
+
+
+
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -254,11 +240,25 @@ namespace Entsoe
             DateTime end
         )
         {
-            return await QueryCrossborder(areaFrom, areaTo, start, end, documentType: DocumentType.A61, marketAgreementType: MarketAgreementType.A04);
+            return await QueryCrossborder(
+                areaFrom, 
+                areaTo, 
+                start, 
+                end, 
+                documentType: DocumentType.A61, 
+                marketAgreementType: MarketAgreementType.A04
+            );
         }
 
+
+
+
+
+
+
+
         /// <summary>
-        /// 
+        /// Result will be in the timezone of the origin country
         /// </summary>
         /// <param name="areaFrom">Country from Area</param>
         /// <param name="areaTo">Country to Area</param>
@@ -272,7 +272,14 @@ namespace Entsoe
             DateTime end
         )
         {
-            return await QueryCrossborder(areaFrom, areaTo, start, end, documentType: DocumentType.A61, marketAgreementType: MarketAgreementType.A03);
+            return await QueryCrossborder(
+                areaFrom, 
+                areaTo, 
+                start, 
+                end, 
+                documentType: DocumentType.A61, 
+                marketAgreementType: MarketAgreementType.A03
+            );
         }
 
 
@@ -291,12 +298,19 @@ namespace Entsoe
             DateTime end
         )
         {
-            return await QueryCrossborder(areaFrom, areaTo, start, end, documentType: DocumentType.A61, marketAgreementType: MarketAgreementType.A02);
+            return await QueryCrossborder(
+                areaFrom, 
+                areaTo, 
+                start, 
+                end, 
+                documentType: DocumentType.A61, 
+                marketAgreementType: MarketAgreementType.A02
+            );
         }
 
 
         /// <summary>
-        /// 
+        /// Result will be in the timezone of the origin country
         /// </summary>
         /// <param name="areaFrom">Country from Area</param>
         /// <param name="areaTo">Country to Area</param>
@@ -310,7 +324,14 @@ namespace Entsoe
             DateTime end
         )
         {
-            return await QueryCrossborder(areaFrom, areaTo, start, end, documentType: DocumentType.A61, marketAgreementType: MarketAgreementType.A01);
+            return await QueryCrossborder(
+                areaFrom, 
+                areaTo, 
+                start, 
+                end, 
+                documentType: DocumentType.A61, 
+                marketAgreementType: MarketAgreementType.A01
+            );
         }
 
 
@@ -332,8 +353,13 @@ namespace Entsoe
             bool dayAhead = false
         )
         {
-            MarketAgreementType marketAgreementType = dayAhead ? MarketAgreementType.A01 : MarketAgreementType.A05;
-            return await QueryCrossborder(areaFrom, areaTo, start, end, documentType: DocumentType.A09, marketAgreementType: marketAgreementType);
+            return await QueryCrossborder(
+                areaFrom, 
+                areaTo, 
+                start, 
+                end, 
+                documentType: DocumentType.A09, 
+                marketAgreementType: dayAhead ? MarketAgreementType.A01 : MarketAgreementType.A05);
         }
 
 
@@ -352,7 +378,13 @@ namespace Entsoe
             DateTime end
         )
         {
-            return await QueryCrossborder(areaFrom, areaTo, start, end, documentType:DocumentType.A11);
+            return await QueryCrossborder(
+                areaFrom, 
+                areaTo, 
+                start, 
+                end, 
+                documentType:DocumentType.A11
+            );
         }
 
 
@@ -363,7 +395,7 @@ namespace Entsoe
         /// <param name="area">Country from Area</param>
         /// <param name="start">Time for start period</param>
         /// <param name="end">Time for end period</param>
-        /// <param name="psrType">When used, only queried production type is returned</param>
+        /// <param name="psrType">filter query for a specific psr type</param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
         public async Task<string> QueryInstalledGenerationCapacityPerUnit(
@@ -382,13 +414,12 @@ namespace Entsoe
             if (psrType != null)
                 request.AddParameter("psrType", Enum.GetName(typeof(PsrType), psrType));
 
-            var response = await _client.ExecuteGetAsync(request);
+            var response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
 
-            if (response != null && response.IsSuccessful)
-            {
-                return response.Content!;
-            }
-            throw new Exception("");
+            if (!response.IsSuccessful)
+                throw new Exception(response.ErrorMessage);
+
+            return response.Content!;
         }
 
         /// <summary>
@@ -416,14 +447,15 @@ namespace Entsoe
             if (psrType != null)
                 request.AddParameter("psrType", Enum.GetName(typeof(PsrType), psrType));
 
-            var response = await _client.ExecuteGetAsync(request);
+            var response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
 
-            if (response != null && response.IsSuccessful)
-            {
-                return response.Content!;
-            }
-            throw new Exception("");
+            if (!response.IsSuccessful)
+                throw new Exception(response.ErrorMessage);
+
+            return response.Content!;
         }
+
+
 
         /// <summary>
         /// 
@@ -431,7 +463,7 @@ namespace Entsoe
         /// <param name="area">Country from Area</param>
         /// <param name="start">Time for start period</param>
         /// <param name="end">Time for end period</param>
-        /// <param name="psrType">When used, only queried production type is returned</param>
+        /// <param name="psrType">filter on a single psr type</param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
         public async Task<string> QueryGenerationPerPlant(
@@ -450,13 +482,12 @@ namespace Entsoe
             if (psrType != null)
                 request.AddParameter("psrType", Enum.GetName(typeof(PsrType), psrType));
 
-            var response = await _client.ExecuteGetAsync(request);
+            var response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
 
-            if (response != null && response.IsSuccessful)
-            {
-                return response.Content!;
-            }
-            throw new Exception("");
+            if (!response.IsSuccessful)
+                throw new Exception(response.ErrorMessage);
+
+            return response.Content!;
         }
 
 
@@ -466,7 +497,7 @@ namespace Entsoe
         /// <param name="area">Country from Area</param>
         /// <param name="start">Time for start period</param>
         /// <param name="end">Time for end period</param>
-        /// <param name="psrType">When used, only queried production type is returned</param>
+        /// <param name="psrType">condense generation and consumption into a nett number</param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
         public async Task<string> QueryGeneration(
@@ -485,13 +516,12 @@ namespace Entsoe
             if (psrType != null)
                 request.AddParameter("psrType", Enum.GetName(typeof(PsrType), psrType));
 
-            var response = await _client.ExecuteGetAsync(request);
+            var response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
 
-            if (response != null && response.IsSuccessful)
-            {
-                return response.Content!;
-            }
-            throw new Exception("");
+            if (!response.IsSuccessful)
+                throw new Exception(response.ErrorMessage);
+
+            return response.Content!;
         }
 
 
@@ -520,13 +550,12 @@ namespace Entsoe
             request.AddParameter("processType", Enum.GetName(typeof(ProccessType), proccessType));
             request.AddParameter("in_Domain", areaInfo.Domain);
 
-            var response = await _client.ExecuteGetAsync(request);
+            var response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
 
-            if (response != null && response.IsSuccessful)
-            {
-                return response.Content!;
-            }
-            throw new Exception("");
+            if (!response.IsSuccessful)
+                throw new Exception(response.ErrorMessage);
+
+            return response.Content!;
         }
 
 
@@ -557,13 +586,12 @@ namespace Entsoe
             if (psrType != null)
                 request.AddParameter("psrType", Enum.GetName(typeof(PsrType), psrType));
 
-            var response = await _client.ExecuteGetAsync(request);
+            var response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
 
-            if (response != null && response.IsSuccessful)
-            {
-                return response.Content!;
-            }
-            throw new Exception("");
+            if (!response.IsSuccessful)
+                throw new Exception(response.ErrorMessage);
+
+            return response.Content!;
         }
 
 
@@ -589,13 +617,12 @@ namespace Entsoe
             request.AddParameter("processType", Enum.GetName(typeof(ProccessType), proccessType));
             request.AddParameter("outBiddingZone_Domain", areaInfo.CountryCode);
 
-            var response = await _client.ExecuteGetAsync(request);
+            var response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
 
-            if (response != null && response.IsSuccessful)
-            {
-                return response.Content!;
-            }
-            throw new Exception("");
+            if (!response.IsSuccessful)
+                throw new Exception(response.ErrorMessage);
+
+            return response.Content!;
 
         }
 
@@ -621,13 +648,12 @@ namespace Entsoe
             request.AddParameter("processType", Enum.GetName(typeof(ProccessType), ProccessType.A16));
             request.AddParameter("outBiddingZone_Domain", areaInfo.CountryCode);
 
-            var response = await _client.ExecuteGetAsync(request);
+            var response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
 
-            if (response != null && response.IsSuccessful)
-            {
-                return response.Content!;
-            }
-            throw new Exception("");
+            if (!response.IsSuccessful)
+                throw new Exception(response.ErrorMessage);
+
+            return response.Content!;
         }
 
         /// <summary>
@@ -636,9 +662,7 @@ namespace Entsoe
         /// <param name="area">Country from Area</param>
         /// <param name="start">Time for start period</param>
         /// <param name="end">Time for end period</param>
-        /// <param name="dayAhead">
-        /// if set true, return data Daily and if false return Intraday
-        /// </param>
+        /// <param name="dayAhead">if set true, return data Daily and if false return Intraday</param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
         public async Task<string> QueryNetPosition(
@@ -655,20 +679,15 @@ namespace Entsoe
             request.AddParameter("out_Domain", areaInfo.Domain);
             request.AddParameter("documentType", Enum.GetName(typeof(DocumentType), DocumentType.A25));
             request.AddParameter("businessType", Enum.GetName(typeof(BusinessType), BusinessType.B09));
-            if (dayAhead)
-                request.AddParameter("Contract_MarketAgreement.Type", Enum.GetName(typeof(MarketAgreementType), MarketAgreementType.A01));
-            else
-                request.AddParameter("Contract_MarketAgreement.Type", Enum.GetName(typeof(MarketAgreementType), MarketAgreementType.A07));
-           
 
+            request.AddParameter("Contract_MarketAgreement.Type", Enum.GetName(typeof(MarketAgreementType), dayAhead ? MarketAgreementType.A01 : MarketAgreementType.A07));
 
-            var response = await _client.ExecuteGetAsync(request);
+            var response = await _client.ExecuteGetAsync(request) ?? throw new Exception("the response is null");
 
-            if (response != null && response.IsSuccessful)
-            {
-                return response.Content!;
-            }
-            throw new Exception("");
+            if (!response.IsSuccessful)
+                throw new Exception(response.ErrorMessage);
+
+            return response.Content!;
         }
 
         /// <summary>
@@ -696,7 +715,8 @@ namespace Entsoe
                 XmlDocument doc = new();
                 doc.LoadXml(response.Content!);
 
-                doc.RemoveChild(doc.FirstChild);
+                if (doc.FirstChild != null)
+                    doc.RemoveChild(doc.FirstChild);
 
                 string json = JsonConvert.SerializeXmlNode(doc, Newtonsoft.Json.Formatting.Indented, true);
 
@@ -708,7 +728,7 @@ namespace Entsoe
             {
                 if (response == null)
 
-                    throw new Exception("Response is empty");
+                    throw new Exception("the response is empty");
                 else
                 {
                     throw new Exception(String.Format("There is an error on fetching data, StatusCode : {0}, ", response.StatusCode));
@@ -718,8 +738,12 @@ namespace Entsoe
             }
         }
 
-
-        private void CheckValidResponse(string input)
+        /// <summary>
+        /// if the reason code is 999, there is/are error(s)
+        /// </summary>
+        /// <param name="input"></param>
+        /// <exception cref="Exception"></exception>
+        private static void CheckValidResponse(string input)
         {
             var result = JsonConvert.DeserializeObject<AcknowledgementMarketDocument>(input)!;
 
