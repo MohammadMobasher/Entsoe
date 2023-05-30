@@ -25,7 +25,7 @@ namespace Entsoe
         /// <param name="apiKey"></param>
         public EntsoeClient(string apiKey)
         {
-            if (string.IsNullOrEmpty(apiKey))
+            if (string.IsNullOrWhiteSpace(apiKey))
             {
                 throw new ArgumentNullException(nameof(apiKey));
             }

@@ -10,3 +10,15 @@ C:\Users\mohammad\Documents\Core\Entsoe\Entsoe\bin\Debug\net6.0\Entsoe.pdb
 C:\Users\mohammad\Documents\Core\Entsoe\Entsoe\obj\Debug\net6.0\Entsoe.dll
 C:\Users\mohammad\Documents\Core\Entsoe\Entsoe\obj\Debug\net6.0\ref\Entsoe.dll
 C:\Users\mohammad\Documents\Core\Entsoe\Entsoe\obj\Debug\net6.0\Entsoe.pdb
+D:\Projects\Core\Entsoe\Entsoe\bin\Debug\net6.0\Entsoe.deps.json
+D:\Projects\Core\Entsoe\Entsoe\bin\Debug\net6.0\Entsoe.dll
+D:\Projects\Core\Entsoe\Entsoe\bin\Debug\net6.0\Entsoe.pdb
+D:\Projects\Core\Entsoe\Entsoe\obj\Debug\net6.0\Entsoe.csproj.AssemblyReference.cache
+D:\Projects\Core\Entsoe\Entsoe\obj\Debug\net6.0\Entsoe.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\Core\Entsoe\Entsoe\obj\Debug\net6.0\Entsoe.AssemblyInfoInputs.cache
+D:\Projects\Core\Entsoe\Entsoe\obj\Debug\net6.0\Entsoe.AssemblyInfo.cs
+D:\Projects\Core\Entsoe\Entsoe\obj\Debug\net6.0\Entsoe.csproj.CoreCompileInputs.cache
+D:\Projects\Core\Entsoe\Entsoe\obj\Debug\net6.0\Entsoe.dll
+D:\Projects\Core\Entsoe\Entsoe\obj\Debug\net6.0\refint\Entsoe.dll
+D:\Projects\Core\Entsoe\Entsoe\obj\Debug\net6.0\Entsoe.pdb
+D:\Projects\Core\Entsoe\Entsoe\obj\Debug\net6.0\ref\Entsoe.dll
